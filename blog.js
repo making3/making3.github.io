@@ -7795,8 +7795,26 @@ var _elm_lang$html$Html$summary = _elm_lang$html$Html$node('summary');
 var _elm_lang$html$Html$menuitem = _elm_lang$html$Html$node('menuitem');
 var _elm_lang$html$Html$menu = _elm_lang$html$Html$node('menu');
 
-var _user$project$Main$main = _elm_lang$virtual_dom$Native_VirtualDom.staticProgram(
-	_elm_lang$html$Html$text('Here\'s what I learned with Jared\'s blog'));
+var _user$project$Main$viewBlogPost = A2(
+	_elm_lang$html$Html$body,
+	{ctor: '[]'},
+	{
+		ctor: '::',
+		_0: A2(
+			_elm_lang$html$Html$h1,
+			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html$text('Making3\'s blog of randomness'),
+				_1: {ctor: '[]'}
+			}),
+		_1: {
+			ctor: '::',
+			_0: _elm_lang$html$Html$text('Here\'s what I learned while exploring Elixir?'),
+			_1: {ctor: '[]'}
+		}
+	});
+var _user$project$Main$main = _elm_lang$virtual_dom$Native_VirtualDom.staticProgram(_user$project$Main$viewBlogPost);
 
 var Elm = {};
 Elm['Main'] = Elm['Main'] || {};
