@@ -7810,7 +7810,7 @@ var _user$project$Main$viewBlogPost = A2(
 			}),
 		_1: {
 			ctor: '::',
-			_0: _elm_lang$html$Html$text('Here\'s what I learned while exploring Elixir?'),
+			_0: _elm_lang$html$Html$text('Here\'s what I learned while exploring Elm...'),
 			_1: {ctor: '[]'}
 		}
 	});
