@@ -52,24 +52,6 @@ update msg model =
     model
 
 
-
--- case msg of
---     ShowHomePage ->
---         home
---
---     ShowWhatIMadeWithElmPost ->
---         whatIMadeWithElmPost
--- VIEW
--- body []
---     [ h1 [] [ text model.title ]
---     , text model.description
---     , div []
---         [ button [ onClick ShowHomePage ] [ text "Home" ]
---         , button [ onClick ShowWhatIMadeWithElmPost ] [ text "What I made with Elm" ]
---         ]
---     ]
-
-
 view : Model -> Html Msg
 view model =
     body []
