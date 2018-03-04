@@ -22,6 +22,7 @@ type alias Model =
     { title : String
     , picture : String
     , posts : List BlogPost
+    , route : Route
     }
 
 
@@ -35,6 +36,7 @@ model =
     { title = "making3's Software Blog"
     , picture = "https://secure.gravatar.com/avatar/1e84d7b396211e9c7bbd888dc51249a4?s=188"
     , posts = []
+    , route = HomePage
     }
 
 
@@ -44,12 +46,22 @@ model =
 
 type Msg
     = ShowHomePage
-    | ShowWhatIMadeWithElmPost
+    | ShowBlogPost BlogPost
+
+
+type Route
+    = HomePage
+    | Post BlogPost
 
 
 update : Msg -> Model -> Model
 update msg model =
-    model
+    case msg of
+        ShowHomePage ->
+            { model | route = HomePage }
+
+        ShowBlogPost post ->
+            { model | route = Post post }
 
 
 view : Model -> Html Msg
@@ -57,7 +69,7 @@ view model =
     body []
         [ div [ class "section" ]
             [ div [ class "container" ]
-                [ h1 [ class "title" ]
+                [ h1 [ class "title blog-title", onClick ShowHomePage ]
                     [ text model.title ]
                 , div [ class "columns" ]
                     [ div
@@ -68,7 +80,7 @@ view model =
                             [ text "Matthew King" ]
                         ]
                     , div [ class "column is-three-quarters" ]
-                        [ viewHome model ]
+                        [ route model.route ]
                     ]
                 ]
             ]
@@ -84,7 +96,7 @@ listBlogPosts : List BlogPost -> List (Html Msg)
 listBlogPosts blogPosts =
     map
         (\l ->
-            a [ class "blog-post-item" ]
+            a [ class "blog-post-item", onClick (ShowBlogPost l) ]
                 [ p [ class "title is-6" ] [ text l.title ]
                 , p [ class "subtitle is-6" ] [ text l.description ]
                 ]
@@ -95,6 +107,14 @@ listBlogPosts blogPosts =
 getBlogPosts : List BlogPost
 getBlogPosts =
     [ softwareSchool, whatIMadeWithElmPost ]
+
+
+viewBlogPost : BlogPost -> Html Msg
+viewBlogPost post =
+    div []
+        [ h1 [ class "title" ] [ text post.title ]
+        , p [] [ text post.description ]
+        ]
 
 
 softwareSchool : BlogPost
@@ -109,3 +129,13 @@ whatIMadeWithElmPost =
     { title = "What I made with Elm"
     , description = "Here's the blog I made in Elm:..."
     }
+
+
+route : Route -> Html Msg
+route route =
+    case route of
+        Post blogPost ->
+            viewBlogPost blogPost
+
+        _ ->
+            viewHome model

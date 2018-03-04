@@ -8262,6 +8262,38 @@ var _elm_lang$html$Html_Events$Options = F2(
 
 var _user$project$Main$whatIMadeWithElmPost = {title: 'What I made with Elm', description: 'Here\'s the blog I made in Elm:...'};
 var _user$project$Main$softwareSchool = {title: 'Matt King\'s Software School', description: 'What I learned in software school is...'};
+var _user$project$Main$viewBlogPost = function (post) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$h1,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('title'),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(post.title),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$p,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(post.description),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			}
+		});
+};
 var _user$project$Main$getBlogPosts = {
 	ctor: '::',
 	_0: _user$project$Main$softwareSchool,
@@ -8270,6 +8302,17 @@ var _user$project$Main$getBlogPosts = {
 		_0: _user$project$Main$whatIMadeWithElmPost,
 		_1: {ctor: '[]'}
 	}
+};
+var _user$project$Main$Model = F4(
+	function (a, b, c, d) {
+		return {title: a, picture: b, posts: c, route: d};
+	});
+var _user$project$Main$BlogPost = F2(
+	function (a, b) {
+		return {title: a, description: b};
+	});
+var _user$project$Main$ShowBlogPost = function (a) {
+	return {ctor: 'ShowBlogPost', _0: a};
 };
 var _user$project$Main$listBlogPosts = function (blogPosts) {
 	return A2(
@@ -8280,7 +8323,12 @@ var _user$project$Main$listBlogPosts = function (blogPosts) {
 				{
 					ctor: '::',
 					_0: _elm_lang$html$Html_Attributes$class('blog-post-item'),
-					_1: {ctor: '[]'}
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Events$onClick(
+							_user$project$Main$ShowBlogPost(l)),
+						_1: {ctor: '[]'}
+					}
 				},
 				{
 					ctor: '::',
@@ -8322,6 +8370,25 @@ var _user$project$Main$viewHome = function (model) {
 		{ctor: '[]'},
 		_user$project$Main$listBlogPosts(model.posts));
 };
+var _user$project$Main$ShowHomePage = {ctor: 'ShowHomePage'};
+var _user$project$Main$Post = function (a) {
+	return {ctor: 'Post', _0: a};
+};
+var _user$project$Main$HomePage = {ctor: 'HomePage'};
+var _user$project$Main$model = {
+	title: 'making3\'s Software Blog',
+	picture: 'https://secure.gravatar.com/avatar/1e84d7b396211e9c7bbd888dc51249a4?s=188',
+	posts: {ctor: '[]'},
+	route: _user$project$Main$HomePage
+};
+var _user$project$Main$route = function (route) {
+	var _p0 = route;
+	if (_p0.ctor === 'Post') {
+		return _user$project$Main$viewBlogPost(_p0._0);
+	} else {
+		return _user$project$Main$viewHome(_user$project$Main$model);
+	}
+};
 var _user$project$Main$view = function (model) {
 	return A2(
 		_elm_lang$html$Html$body,
@@ -8350,8 +8417,12 @@ var _user$project$Main$view = function (model) {
 								_elm_lang$html$Html$h1,
 								{
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class('title'),
-									_1: {ctor: '[]'}
+									_0: _elm_lang$html$Html_Attributes$class('title blog-title'),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$ShowHomePage),
+										_1: {ctor: '[]'}
+									}
 								},
 								{
 									ctor: '::',
@@ -8429,7 +8500,7 @@ var _user$project$Main$view = function (model) {
 												},
 												{
 													ctor: '::',
-													_0: _user$project$Main$viewHome(model),
+													_0: _user$project$Main$route(model.route),
 													_1: {ctor: '[]'}
 												}),
 											_1: {ctor: '[]'}
@@ -8445,25 +8516,21 @@ var _user$project$Main$view = function (model) {
 };
 var _user$project$Main$update = F2(
 	function (msg, model) {
-		return model;
+		var _p1 = msg;
+		if (_p1.ctor === 'ShowHomePage') {
+			return _elm_lang$core$Native_Utils.update(
+				model,
+				{route: _user$project$Main$HomePage});
+		} else {
+			return _elm_lang$core$Native_Utils.update(
+				model,
+				{
+					route: _user$project$Main$Post(_p1._0)
+				});
+		}
 	});
-var _user$project$Main$model = {
-	title: 'making3\'s Software Blog',
-	picture: 'https://secure.gravatar.com/avatar/1e84d7b396211e9c7bbd888dc51249a4?s=188',
-	posts: {ctor: '[]'}
-};
 var _user$project$Main$main = _elm_lang$html$Html$beginnerProgram(
 	{model: _user$project$Main$model, update: _user$project$Main$update, view: _user$project$Main$view})();
-var _user$project$Main$Model = F3(
-	function (a, b, c) {
-		return {title: a, picture: b, posts: c};
-	});
-var _user$project$Main$BlogPost = F2(
-	function (a, b) {
-		return {title: a, description: b};
-	});
-var _user$project$Main$ShowWhatIMadeWithElmPost = {ctor: 'ShowWhatIMadeWithElmPost'};
-var _user$project$Main$ShowHomePage = {ctor: 'ShowHomePage'};
 
 var Elm = {};
 Elm['Main'] = Elm['Main'] || {};

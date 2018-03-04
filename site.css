@@ -1,3 +1,7 @@
+.blog-title {
+  cursor: pointer;
+}
+
 .profile-me {
   border-radius: 50%;
 }
