@@ -10,3 +10,9 @@
   margin-bottom: 15px;
   display: block;
 }
+
+.media-icon {
+    width: 32px;
+    height: auto;
+    margin-right: 15px;
+}

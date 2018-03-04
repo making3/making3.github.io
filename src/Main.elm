@@ -1,7 +1,7 @@
 module Main exposing (main)
 
 import Html exposing (Html, body, section, div, text, h1, p, img, label, a)
-import Html.Attributes exposing (class, src)
+import Html.Attributes exposing (class, src, href, target)
 import Html.Events exposing (onClick)
 import List exposing (map)
 
@@ -78,11 +78,24 @@ view model =
                             [ img [ class "profile-me", src model.picture ] [] ]
                         , div [ class "level" ]
                             [ text "Matthew King" ]
+                        , (viewMediaLinks model)
                         ]
                     , div [ class "column is-three-quarters" ]
                         [ route model.route ]
                     ]
                 ]
+            ]
+        ]
+
+
+viewMediaLinks : Model -> Html Msg
+viewMediaLinks model =
+    div [ class "level-left" ]
+        [ a [ target "_blank", href "https://github.com/making3" ]
+            [ img [ class "media-icon", src "images/github.png" ] []
+            ]
+        , a [ target "_blank", href "https://twitter.com/making_3" ]
+            [ img [ class "media-icon", src "images/twitter.png" ] []
             ]
         ]
 

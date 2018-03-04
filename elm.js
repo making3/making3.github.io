@@ -8303,6 +8303,76 @@ var _user$project$Main$getBlogPosts = {
 		_1: {ctor: '[]'}
 	}
 };
+var _user$project$Main$viewMediaLinks = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('level-left'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$a,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$target('_blank'),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$href('https://github.com/making3'),
+						_1: {ctor: '[]'}
+					}
+				},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$img,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('media-icon'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$src('images/github.png'),
+								_1: {ctor: '[]'}
+							}
+						},
+						{ctor: '[]'}),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$a,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$target('_blank'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$href('https://twitter.com/making_3'),
+							_1: {ctor: '[]'}
+						}
+					},
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$img,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('media-icon'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$src('images/twitter.png'),
+									_1: {ctor: '[]'}
+								}
+							},
+							{ctor: '[]'}),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			}
+		});
+};
 var _user$project$Main$Model = F4(
 	function (a, b, c, d) {
 		return {title: a, picture: b, posts: c, route: d};
@@ -8486,7 +8556,11 @@ var _user$project$Main$view = function (model) {
 															_0: _elm_lang$html$Html$text('Matthew King'),
 															_1: {ctor: '[]'}
 														}),
-													_1: {ctor: '[]'}
+													_1: {
+														ctor: '::',
+														_0: _user$project$Main$viewMediaLinks(model),
+														_1: {ctor: '[]'}
+													}
 												}
 											}),
 										_1: {
