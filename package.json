@@ -1,0 +1,32 @@
+{
+  "name": "making3.github.io",
+  "version": "0.1.0",
+  "description": "Personal github page & blog",
+  "main": "elm.js",
+  "scripts": {
+    "build": "elm make src/Main.elm --output elm.js || true",
+    "watch": "./node_modules/.bin/chokidar '**/*.elm' -c 'npm run build'",
+    "debug": "elm reactor -p 3000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/making3/making3.github.io.git"
+  },
+  "keywords": [
+    "making3",
+    "blog",
+    "elixir",
+    "elm"
+  ],
+  "author": "Matthew King <making3dev@gmail.com> (https://making3.github.io/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/making3/making3.github.io/issues"
+  },
+  "homepage": "https://making3.github.io",
+  "devDependencies": {
+    "chokidar-cli": "^1.2.0",
+    "elm": "^0.18.0"
+  },
+  "private": true
+}
