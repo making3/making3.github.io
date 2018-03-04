@@ -25,6 +25,7 @@
   },
   "homepage": "https://making3.github.io",
   "devDependencies": {
+    "bulma": "^0.6.2",
     "chokidar-cli": "^1.2.0",
     "elm": "^0.18.0"
   },
