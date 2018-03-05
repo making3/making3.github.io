@@ -4,6 +4,9 @@ import Html exposing (Html, body, section, div, text, h1, p, img, label, a)
 import Html.Attributes exposing (class, src, href, target)
 import Html.Events exposing (onClick)
 import List exposing (map)
+import Markdown exposing (toHtml)
+import Model exposing (..)
+import BlogPost exposing (..)
 
 
 main =
@@ -18,22 +21,9 @@ main =
 -- MODEL
 
 
-type alias Model =
-    { title : String
-    , picture : String
-    , posts : List BlogPost
-    , route : Route
-    }
-
-
-type alias BlogPost =
-    { title : String
-    , description : String
-    }
-
-
 model =
-    { title = "making3's Software Blog"
+    { title = "Matt King's Software Blog"
+    , about = "Full stack software developer"
     , picture = "https://secure.gravatar.com/avatar/1e84d7b396211e9c7bbd888dc51249a4?s=188"
     , posts = []
     , route = HomePage
@@ -42,16 +32,6 @@ model =
 
 
 -- UPDATE
-
-
-type Msg
-    = ShowHomePage
-    | ShowBlogPost BlogPost
-
-
-type Route
-    = HomePage
-    | Post BlogPost
 
 
 update : Msg -> Model -> Model
@@ -75,9 +55,9 @@ view model =
                     [ div
                         [ class "column is-one-quarter" ]
                         [ div [ class "level" ]
-                            [ img [ class "profile-me", src model.picture ] [] ]
-                        , div [ class "level" ]
-                            [ text "Matthew King" ]
+                            [ img [ class "sidebar-picture", src model.picture ] [] ]
+                        , div [ class "level sidebar-name" ] [ text "Matthew King" ]
+                        , div [ class "level content is-small sidebar-about" ] [ text model.about ]
                         , (viewMediaLinks model)
                         ]
                     , div [ class "column is-three-quarters" ]
@@ -117,31 +97,12 @@ listBlogPosts blogPosts =
         getBlogPosts
 
 
-getBlogPosts : List BlogPost
-getBlogPosts =
-    [ softwareSchool, whatIMadeWithElmPost ]
-
-
 viewBlogPost : BlogPost -> Html Msg
 viewBlogPost post =
     div []
         [ h1 [ class "title" ] [ text post.title ]
-        , p [] [ text post.description ]
+        , div [ class "level" ] [ Markdown.toHtml [ class "content" ] post.content ]
         ]
-
-
-softwareSchool : BlogPost
-softwareSchool =
-    { title = "Matt King's Software School"
-    , description = "What I learned in software school is..."
-    }
-
-
-whatIMadeWithElmPost : BlogPost
-whatIMadeWithElmPost =
-    { title = "What I made with Elm"
-    , description = "Here's the blog I made in Elm:..."
-    }
 
 
 route : Route -> Html Msg

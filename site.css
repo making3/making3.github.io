@@ -2,10 +2,14 @@
   cursor: pointer;
 }
 
-.profile-me {
+.sidebar-picture {
   border-radius: 50%;
 }
 
+.sidebar-name {
+  margin-bottom: 5px !important;
+}
+.
 .blog-post-item {
   margin-bottom: 15px;
   display: block;
