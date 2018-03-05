@@ -21,9 +21,11 @@ type alias BlogPost =
 
 type Msg
     = ShowHomePage
+    | ShowAboutPage
     | ShowBlogPost BlogPost
 
 
 type Route
     = HomePage
+    | AboutPage
     | Post BlogPost

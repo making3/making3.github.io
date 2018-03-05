@@ -1,12 +1,13 @@
 module Main exposing (main)
 
-import Html exposing (Html, body, section, div, text, h1, p, img, label, a)
+import Html exposing (..)
 import Html.Attributes exposing (class, src, href, target)
 import Html.Events exposing (onClick)
-import List exposing (map)
+import List as List exposing (map)
 import Markdown exposing (toHtml)
 import Model exposing (..)
 import BlogPost exposing (..)
+import About as About exposing (view)
 
 
 main =
@@ -40,6 +41,9 @@ update msg model =
         ShowHomePage ->
             { model | route = HomePage }
 
+        ShowAboutPage ->
+            { model | route = AboutPage }
+
         ShowBlogPost post ->
             { model | route = Post post }
 
@@ -47,23 +51,52 @@ update msg model =
 view : Model -> Html Msg
 view model =
     body []
-        [ div [ class "section" ]
-            [ div [ class "container" ]
-                [ h1 [ class "title blog-title", onClick ShowHomePage ]
-                    [ text model.title ]
-                , div [ class "columns" ]
-                    [ div
-                        [ class "column is-one-quarter" ]
-                        [ div [ class "level" ]
-                            [ img [ class "sidebar-picture", src model.picture ] [] ]
-                        , div [ class "level sidebar-name" ] [ text "Matthew King" ]
-                        , div [ class "level content is-small sidebar-about" ] [ text model.about ]
-                        , (viewMediaLinks model)
+        [ section [ class "hero is-primary is-medium" ]
+            [ div [ class "hero-head" ]
+                [ nav [ class "navbar" ]
+                    [ div [ class "container" ]
+                        [ div [ class "navbar-brand" ]
+                            [ a [ class "navbar-item", onClick ShowHomePage ] [ text "matth" ]
+                            ]
+                        , div [ class "navbar-menu" ]
+                            [ div [ class "navbar-end" ]
+                                [ a [ class "navbar-item", onClick ShowHomePage ] [ text "Home" ]
+                                , a [ class "navbar-item", onClick ShowAboutPage ] [ text "About" ]
+                                ]
+                            ]
                         ]
-                    , div [ class "column is-three-quarters" ]
-                        [ route model.route ]
                     ]
                 ]
+            ]
+        , viewContent model
+        ]
+
+
+viewContent : Model -> Html Msg
+viewContent model =
+    body []
+        [ div [ class "container" ]
+            [ h1 [ class "title blog-title", onClick ShowHomePage ]
+                [ text model.title ]
+            , viewBody model
+            ]
+        ]
+
+
+viewBody : Model -> Html Msg
+viewBody model =
+    div [ class "container" ]
+        [ div [ class "columns" ]
+            [ div
+                [ class "column is-one-quarter" ]
+                [ div [ class "level" ]
+                    [ img [ class "sidebar-picture", src model.picture ] [] ]
+                , div [ class "level sidebar-name" ] [ text "Matthew King" ]
+                , div [ class "level content is-small sidebar-about" ] [ text model.about ]
+                , (viewMediaLinks model)
+                ]
+            , div [ class "column is-three-quarters" ]
+                [ route model.route ]
             ]
         ]
 
@@ -87,7 +120,7 @@ viewHome model =
 
 listBlogPosts : List BlogPost -> List (Html Msg)
 listBlogPosts blogPosts =
-    map
+    List.map
         (\l ->
             a [ class "blog-post-item", onClick (ShowBlogPost l) ]
                 [ p [ class "title is-6" ] [ text l.title ]
@@ -110,6 +143,9 @@ route route =
     case route of
         Post blogPost ->
             viewBlogPost blogPost
+
+        AboutPage ->
+            About.view
 
         _ ->
             viewHome model
