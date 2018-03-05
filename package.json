@@ -6,7 +6,7 @@
   "scripts": {
     "build": "elm make src/Main.elm --output elm.js || true",
     "watch": "./node_modules/.bin/chokidar '**/*.elm' -c 'npm run build'",
-    "debug": "elm reactor -p 3000"
+    "debug": "elm-reactor -p 3000"
   },
   "repository": {
     "type": "git",
