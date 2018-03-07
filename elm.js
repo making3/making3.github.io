@@ -8419,7 +8419,7 @@ var _user$project$Model$Post = function (a) {
 var _user$project$Model$AboutPage = {ctor: 'AboutPage'};
 var _user$project$Model$HomePage = {ctor: 'HomePage'};
 
-var _user$project$About$getAbout = '\nAbout Me!\n';
+var _user$project$About$getAbout = '\n\n## Who am I?\n\nHi! I\'m Matthew King. I\'m a software developer currently working for [iWT Health](https://www.iwthealth.com/) for a variety of backend services.\n  My _cool_ Github name came from my university, which I ended up creating my StackOverflow and [Github](https://github.com/making3) profiles from (for no real reason),\n  which I stuck with somewhat. Since then, I\'ve been _nicknamed_ matth due to a past colleague shortening my name as Matth instead of Matt (from Matthew), so I\'ve embraced it the \"joke\" of it.\n\nI started my journey as a co-op student at iWT Health back in 2009 and have been fascinated by working\n  on the layer of software that runs behind the front of the business. I started writing C# services and backends (with tiny front-ends),\n  which eventually lead to Node.js as a integration-services layer. Although I still work with Node.js, I\'ve been exploring functional programming,\n  inspired by a fellow co-worker, [absynce](https://absynce.github.io/), which brought Erlang, Elixir, and Elm to my attention.\n\nAs for a personal note, I don\'t have the best range of hobbies, but mostly includes gaming / walking / running / binging on Netflix. Otherwise, my Wife and I recently moved from the\n  midwest to the bay area to pursue her career, and we\'ve been exploring all sorts of places in California!\n\n## Contact / Social Stuff\n\n- [Twitter](https://twitter.com/making_3)\n- [Github](https://github.com/making3)\n- <mailto:making3dev@gmail.com>\n- [StackOverflow](https://stackoverflow.com/users/724591/matth?tab=profile)\n\n## Acknowledgements\n\n- [Jared Smith (absynce)](https://absynce.github.io/) - For being a great mentor, lead, and role model. Check his intro to Elm blog!\n- [Alex Owens](http://www.aowens.me/) - For being an awesome colleague and self-driven developer. He\'s always trying to improve himself and is very passionate about software development (I give him credit for _pushing_ me to make this blog).\n- Josh Miller (first mentor) - For guiding me with programming early as a co-op student.\n\n';
 var _user$project$About$view = A2(
 	_elm_lang$html$Html$div,
 	{
@@ -8639,7 +8639,7 @@ var _user$project$Main$update = F2(
 		}
 	});
 var _user$project$Main$model = {
-	title: 'Matt King\'s Software Blog',
+	title: 'Matth\'s Software Blog',
 	about: 'Full stack software developer',
 	picture: 'https://secure.gravatar.com/avatar/1e84d7b396211e9c7bbd888dc51249a4?s=188',
 	posts: {ctor: '[]'},
