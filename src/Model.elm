@@ -1,4 +1,4 @@
-module Model exposing (..)
+module Model exposing (BlogPost, Model, Msg(..), Route(..))
 
 import Html exposing (Html)
 

@@ -1,13 +1,13 @@
 module Main exposing (main)
 
+import About as About exposing (view)
+import BlogPost exposing (..)
 import Html exposing (..)
-import Html.Attributes exposing (class, src, href, target)
+import Html.Attributes exposing (class, href, src, target)
 import Html.Events exposing (onClick)
 import List as List exposing (map)
 import Markdown exposing (toHtml)
 import Model exposing (..)
-import BlogPost exposing (..)
-import About as About exposing (view)
 
 
 main =
@@ -93,7 +93,7 @@ viewBody model =
                     [ img [ class "sidebar-picture", src model.picture ] [] ]
                 , div [ class "level sidebar-name" ] [ text "Matthew King" ]
                 , div [ class "level content is-small sidebar-about" ] [ text model.about ]
-                , (viewMediaLinks model)
+                , viewMediaLinks model
                 ]
             , div [ class "column is-three-quarters" ]
                 [ route model.route ]

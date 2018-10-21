@@ -1,4 +1,4 @@
-module BlogPost exposing (..)
+module BlogPost exposing (getBlogPosts)
 
 import Model exposing (BlogPost)
 import Posts.Intro as Intro exposing (post)

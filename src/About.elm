@@ -1,4 +1,4 @@
-module About exposing (..)
+module About exposing (getAbout, view)
 
 import Html exposing (Html, div)
 import Html.Attributes exposing (class)
