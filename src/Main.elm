@@ -2,7 +2,7 @@ module Main exposing (main)
 
 import About as About exposing (view)
 import BlogPost exposing (..)
-import Browser exposing (element)
+import Browser exposing (Document, document)
 import Html exposing (..)
 import Html.Attributes exposing (class, href, src, target)
 import Html.Events exposing (onClick)
@@ -12,7 +12,7 @@ import Model exposing (..)
 
 
 main =
-    Browser.element
+    Browser.document
         { init = init
         , update = update
         , subscriptions = subscriptions
@@ -24,36 +24,39 @@ main =
 -- MODEL
 
 
-init: () -> (Model, Cmd Msg)
+init : () -> ( Model, Cmd Msg )
 init _ =
-    ({ title = "Matth's Software Blog"
-    , about = "Full stack software developer"
-    , picture = "https://secure.gravatar.com/avatar/1e84d7b396211e9c7bbd888dc51249a4?s=188"
-    , posts = []
-    , route = HomePage
-    }, Cmd.none)
+    ( { title = "Matth's Software Blog"
+      , about = "Full stack software developer"
+      , picture = "https://secure.gravatar.com/avatar/0e84d7b396211e9c7bbd888dc51249a4?s=188"
+      , posts = []
+      , route = HomePage
+      }
+    , Cmd.none
+    )
 
 
 
 -- UPDATE
 
 
-update : Msg -> Model -> (Model, Cmd Msg)
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         ShowHomePage ->
-            ({ model | route = HomePage }, Cmd.none)
+            ( { model | route = HomePage }, Cmd.none )
 
         ShowAboutPage ->
-            ({ model | route = AboutPage }, Cmd.none)
+            ( { model | route = AboutPage }, Cmd.none )
 
         ShowBlogPost post ->
-            ({ model | route = Post post }, Cmd.none)
+            ( { model | route = Post post }, Cmd.none )
 
 
-view : Model -> Html Msg
+view : Model -> Document Msg
 view model =
-    div []
+    { title = "Test"
+    , body =
         [ section [ class "hero is-primary is-medium" ]
             [ div [ class "hero-head" ]
                 [ nav [ class "navbar" ]
@@ -73,6 +76,7 @@ view model =
             ]
         , viewContent model
         ]
+    }
 
 
 viewContent : Model -> Html Msg
@@ -157,9 +161,10 @@ routeTo model =
             viewHome model
 
 
+
 -- SUBSCRIPTIONS
 
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-  Sub.none
+    Sub.none

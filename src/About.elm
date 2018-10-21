@@ -12,6 +12,7 @@ view =
         [ Markdown.toHtml [ class "content" ] getAbout
         ]
 
+
 getAbout : String
 getAbout =
     """
