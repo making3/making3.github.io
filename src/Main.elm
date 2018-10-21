@@ -2,6 +2,7 @@ module Main exposing (main)
 
 import About as About exposing (view)
 import BlogPost exposing (..)
+import Browser exposing (sandbox)
 import Html exposing (..)
 import Html.Attributes exposing (class, href, src, target)
 import Html.Events exposing (onClick)
@@ -11,8 +12,8 @@ import Model exposing (..)
 
 
 main =
-    Html.beginnerProgram
-        { model = model
+    Browser.sandbox
+        { init = init
         , update = update
         , view = view
         }
@@ -22,7 +23,7 @@ main =
 -- MODEL
 
 
-model =
+init =
     { title = "Matth's Software Blog"
     , about = "Full stack software developer"
     , picture = "https://secure.gravatar.com/avatar/1e84d7b396211e9c7bbd888dc51249a4?s=188"
@@ -50,7 +51,7 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    body []
+    div []
         [ section [ class "hero is-primary is-medium" ]
             [ div [ class "hero-head" ]
                 [ nav [ class "navbar" ]
@@ -74,7 +75,7 @@ view model =
 
 viewContent : Model -> Html Msg
 viewContent model =
-    body []
+    div []
         [ div [ class "container" ]
             [ h1 [ class "title blog-title", onClick ShowHomePage ]
                 [ text model.title ]
@@ -96,7 +97,7 @@ viewBody model =
                 , viewMediaLinks model
                 ]
             , div [ class "column is-three-quarters" ]
-                [ route model.route ]
+                [ routeTo model ]
             ]
         ]
 
@@ -138,9 +139,9 @@ viewBlogPost post =
         ]
 
 
-route : Route -> Html Msg
-route route =
-    case route of
+routeTo : Model -> Html Msg
+routeTo model =
+    case model.route of
         Post blogPost ->
             viewBlogPost blogPost
 

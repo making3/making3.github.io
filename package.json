@@ -4,9 +4,9 @@
   "description": "Personal github page & blog",
   "main": "elm.js",
   "scripts": {
-    "build": "./node_modules/.bin/elm-make src/Main.elm --output elm.js --yes || true",
+    "build": "./node_modules/.bin/elm make src/Main.elm --output dist/elm.js || true",
     "watch": "./node_modules/.bin/chokidar \"**/*.elm\" -c \"npm run build\"",
-    "debug": "elm-reactor -p 3000"
+    "debug": "elm reactor --port 3000"
   },
   "repository": {
     "type": "git",
