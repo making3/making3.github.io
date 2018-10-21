@@ -2,21 +2,26 @@ module Main exposing (main)
 
 import About as About exposing (view)
 import BlogPost exposing (..)
-import Browser exposing (Document, document)
+import Browser exposing (Document, application)
+import Browser.Navigation as Nav
 import Html exposing (..)
 import Html.Attributes exposing (class, href, src, target)
 import Html.Events exposing (onClick)
 import List as List exposing (map)
 import Markdown exposing (toHtml)
 import Model exposing (..)
+import Url
+import Url.Parser exposing ((</>), Parser, int, map, oneOf, s, string)
 
 
 main =
-    Browser.document
+    Browser.application
         { init = init
         , update = update
         , subscriptions = subscriptions
         , view = view
+        , onUrlChange = UrlChanged
+        , onUrlRequest = LinkClicked
         }
 
 
@@ -24,13 +29,16 @@ main =
 -- MODEL
 
 
-init : () -> ( Model, Cmd Msg )
-init _ =
+init : () -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
+init _ url key =
     ( { title = "Matth's Software Blog"
       , about = "Full stack software developer"
       , picture = "https://secure.gravatar.com/avatar/0e84d7b396211e9c7bbd888dc51249a4?s=188"
       , posts = []
-      , route = HomePage
+
+      -- , route = Home
+      , url = url
+      , key = key
       }
     , Cmd.none
     )
@@ -43,14 +51,31 @@ init _ =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        ShowHomePage ->
-            ( { model | route = HomePage }, Cmd.none )
+        LinkClicked urlRequest ->
+            case urlRequest of
+                Browser.Internal url ->
+                    let
+                        _ =
+                            Debug.log "asdf" url
+                    in
+                    ( model, Nav.pushUrl model.key (Url.toString url) )
 
-        ShowAboutPage ->
-            ( { model | route = AboutPage }, Cmd.none )
+                Browser.External href ->
+                    ( model, Nav.load href )
 
-        ShowBlogPost post ->
-            ( { model | route = Post post }, Cmd.none )
+        UrlChanged url ->
+            ( { model | url = url }, Cmd.none )
+
+
+
+-- ShowHomePage ->
+--     ( { model | route = HomePage }, Cmd.none )
+--
+-- ShowAboutPage ->
+--     ( { model | route = AboutPage }, Cmd.none )
+--
+-- ShowBlogPost post ->
+--     ( { model | route = Post post }, Cmd.none )
 
 
 view : Model -> Document Msg
@@ -62,12 +87,12 @@ view model =
                 [ nav [ class "navbar" ]
                     [ div [ class "container" ]
                         [ div [ class "navbar-brand" ]
-                            [ a [ class "navbar-item", onClick ShowHomePage ] [ text "matth" ]
+                            [ a [ class "navbar-item", href "/home" ] [ text "matth" ]
                             ]
                         , div [ class "navbar-menu" ]
                             [ div [ class "navbar-end" ]
-                                [ a [ class "navbar-item", onClick ShowHomePage ] [ text "Home" ]
-                                , a [ class "navbar-item", onClick ShowAboutPage ] [ text "About" ]
+                                [ a [ class "navbar-item", href "/home" ] [ text "Home" ]
+                                , a [ class "navbar-item", href "/about" ] [ text "About" ]
                                 ]
                             ]
                         ]
@@ -83,7 +108,7 @@ viewContent : Model -> Html Msg
 viewContent model =
     div []
         [ div [ class "container" ]
-            [ h1 [ class "title blog-title", onClick ShowHomePage ]
+            [ h1 [ class "title blog-title", href "/home" ]
                 [ text model.title ]
             , viewBody model
             ]
@@ -92,6 +117,10 @@ viewContent model =
 
 viewBody : Model -> Html Msg
 viewBody model =
+    let
+        _ =
+            Debug.log "key" model.key
+    in
     div [ class "container" ]
         [ div [ class "columns" ]
             [ div
@@ -102,8 +131,10 @@ viewBody model =
                 , div [ class "level content is-small sidebar-about" ] [ text model.about ]
                 , viewMediaLinks model
                 ]
-            , div [ class "column is-three-quarters" ]
-                [ routeTo model ]
+            , b [] [ text (Url.toString model.url) ]
+
+            -- , div [ class "column is-three-quarters" ]
+            --     [ routeTo model ]
             ]
         ]
 
@@ -131,10 +162,10 @@ viewHome model =
 listBlogPosts : List BlogPost -> List (Html Msg)
 listBlogPosts blogPosts =
     List.map
-        (\l ->
-            a [ class "blog-post-item", onClick (ShowBlogPost l) ]
-                [ p [ class "title is-6" ] [ text l.title ]
-                , p [ class "subtitle is-6" ] [ text l.description ]
+        (\post ->
+            a [ class "blog-post-item", href ("/posts/" ++ post.name) ]
+                [ p [ class "title is-6" ] [ text post.title ]
+                , p [ class "subtitle is-6" ] [ text post.description ]
                 ]
         )
         getBlogPosts
@@ -148,20 +179,27 @@ viewBlogPost post =
         ]
 
 
-routeTo : Model -> Html Msg
-routeTo model =
-    case model.route of
-        Post blogPost ->
-            viewBlogPost blogPost
-
-        AboutPage ->
-            About.view
-
-        _ ->
-            viewHome model
+routeParser : Parser (Route -> a) a
+routeParser =
+    oneOf
+        [ map Home (s "home")
+        , map About (s "about")
+        , map Blog (s "blog" </> string)
+        ]
 
 
 
+-- routeTo : Model -> Html Msg
+-- routeTo model =
+--     case model.route of
+--         Post blogPost ->
+--             viewBlogPost blogPost
+--
+--         AboutPage ->
+--             About.view
+--
+--         _ ->
+--             viewHome model
 -- SUBSCRIPTIONS
 
 

@@ -1,6 +1,9 @@
 module Model exposing (BlogPost, Model, Msg(..), Route(..))
 
+import Browser
+import Browser.Navigation as Nav
 import Html exposing (Html)
+import Url
 
 
 type alias Model =
@@ -8,24 +11,27 @@ type alias Model =
     , about : String
     , picture : String
     , posts : List BlogPost
-    , route : Route
+
+    -- , route : Route
+    , key : Nav.Key
+    , url : Url.Url
     }
 
 
 type alias BlogPost =
-    { title : String
+    { name : String
+    , title : String
     , description : String
     , content : String
     }
 
 
 type Msg
-    = ShowHomePage
-    | ShowAboutPage
-    | ShowBlogPost BlogPost
+    = LinkClicked Browser.UrlRequest
+    | UrlChanged Url.Url
 
 
 type Route
-    = HomePage
-    | AboutPage
-    | Post BlogPost
+    = Home
+    | About
+    | Blog String
