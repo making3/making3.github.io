@@ -2,7 +2,7 @@ module Main exposing (main)
 
 import About as About exposing (view)
 import BlogPost exposing (..)
-import Browser exposing (sandbox)
+import Browser exposing (element)
 import Html exposing (..)
 import Html.Attributes exposing (class, href, src, target)
 import Html.Events exposing (onClick)
@@ -12,9 +12,10 @@ import Model exposing (..)
 
 
 main =
-    Browser.sandbox
+    Browser.element
         { init = init
         , update = update
+        , subscriptions = subscriptions
         , view = view
         }
 
@@ -23,30 +24,31 @@ main =
 -- MODEL
 
 
-init =
-    { title = "Matth's Software Blog"
+init: () -> (Model, Cmd Msg)
+init _ =
+    ({ title = "Matth's Software Blog"
     , about = "Full stack software developer"
     , picture = "https://secure.gravatar.com/avatar/1e84d7b396211e9c7bbd888dc51249a4?s=188"
     , posts = []
     , route = HomePage
-    }
+    }, Cmd.none)
 
 
 
 -- UPDATE
 
 
-update : Msg -> Model -> Model
+update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
     case msg of
         ShowHomePage ->
-            { model | route = HomePage }
+            ({ model | route = HomePage }, Cmd.none)
 
         ShowAboutPage ->
-            { model | route = AboutPage }
+            ({ model | route = AboutPage }, Cmd.none)
 
         ShowBlogPost post ->
-            { model | route = Post post }
+            ({ model | route = Post post }, Cmd.none)
 
 
 view : Model -> Html Msg
@@ -153,3 +155,11 @@ routeTo model =
 
         _ ->
             viewHome model
+
+
+-- SUBSCRIPTIONS
+
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+  Sub.none
