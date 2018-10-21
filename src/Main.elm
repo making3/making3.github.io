@@ -33,7 +33,7 @@ init : () -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
 init _ url key =
     ( { title = "Matth's Software Blog"
       , about = "Full stack software developer"
-      , picture = "https://secure.gravatar.com/avatar/0e84d7b396211e9c7bbd888dc51249a4?s=188"
+      , picture = "https://secure.gravatar.com/avatar/1e84d7b396211e9c7bbd888dc51249a4?s=188"
       , posts = []
 
       -- , route = Home

@@ -4774,7 +4774,7 @@ var elm$core$Platform$Cmd$none = elm$core$Platform$Cmd$batch(_List_Nil);
 var author$project$Main$init = F3(
 	function (_n0, url, key) {
 		return _Utils_Tuple2(
-			{about: 'Full stack software developer', key: key, picture: 'https://secure.gravatar.com/avatar/0e84d7b396211e9c7bbd888dc51249a4?s=188', posts: _List_Nil, title: 'Matth\'s Software Blog', url: url},
+			{about: 'Full stack software developer', key: key, picture: 'https://secure.gravatar.com/avatar/1e84d7b396211e9c7bbd888dc51249a4?s=188', posts: _List_Nil, title: 'Matth\'s Software Blog', url: url},
 			elm$core$Platform$Cmd$none);
 	});
 var elm$core$Platform$Sub$batch = _Platform_batch;
