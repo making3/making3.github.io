@@ -5,8 +5,7 @@ import Model exposing (BlogPost)
 
 post : BlogPost
 post =
-    { name = "intro"
-    , title = "Blog Introduction"
+    { title = "Blog Introduction"
     , description = "Why I'm making a blog..."
     , content = getContent
     }

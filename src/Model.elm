@@ -2,6 +2,7 @@ module Model exposing (BlogPost, Model, Msg(..), Route(..))
 
 import Browser
 import Browser.Navigation as Nav
+import Dict
 import Html exposing (Html)
 import Url
 
@@ -10,17 +11,15 @@ type alias Model =
     { title : String
     , about : String
     , picture : String
-    , posts : List BlogPost
-
-    -- , route : Route
+    , posts : Dict.Dict String BlogPost
+    , route : Route
     , key : Nav.Key
     , url : Url.Url
     }
 
 
 type alias BlogPost =
-    { name : String
-    , title : String
+    { title : String
     , description : String
     , content : String
     }
@@ -35,3 +34,4 @@ type Route
     = Home
     | About
     | Blog String
+    | NotFound

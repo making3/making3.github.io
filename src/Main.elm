@@ -4,6 +4,7 @@ import About as About exposing (view)
 import BlogPost exposing (..)
 import Browser exposing (Document, application)
 import Browser.Navigation as Nav
+import Dict
 import Html exposing (..)
 import Html.Attributes exposing (class, href, src, target)
 import Html.Events exposing (onClick)
@@ -11,7 +12,7 @@ import List as List exposing (map)
 import Markdown exposing (toHtml)
 import Model exposing (..)
 import Url
-import Url.Parser exposing ((</>), Parser, int, map, oneOf, s, string)
+import Url.Parser exposing ((</>), Parser, int, map, oneOf, parse, s, string)
 
 
 main =
@@ -34,9 +35,8 @@ init _ url key =
     ( { title = "Matth's Software Blog"
       , about = "Full stack software developer"
       , picture = "https://secure.gravatar.com/avatar/1e84d7b396211e9c7bbd888dc51249a4?s=188"
-      , posts = []
-
-      -- , route = Home
+      , posts = blogPosts
+      , route = url |> Url.toString |> toRoute
       , url = url
       , key = key
       }
@@ -54,28 +54,13 @@ update msg model =
         LinkClicked urlRequest ->
             case urlRequest of
                 Browser.Internal url ->
-                    let
-                        _ =
-                            Debug.log "asdf" url
-                    in
                     ( model, Nav.pushUrl model.key (Url.toString url) )
 
                 Browser.External href ->
                     ( model, Nav.load href )
 
         UrlChanged url ->
-            ( { model | url = url }, Cmd.none )
-
-
-
--- ShowHomePage ->
---     ( { model | route = HomePage }, Cmd.none )
---
--- ShowAboutPage ->
---     ( { model | route = AboutPage }, Cmd.none )
---
--- ShowBlogPost post ->
---     ( { model | route = Post post }, Cmd.none )
+            ( { model | url = url, route = url |> Url.toString |> toRoute }, Cmd.none )
 
 
 view : Model -> Document Msg
@@ -117,10 +102,6 @@ viewContent model =
 
 viewBody : Model -> Html Msg
 viewBody model =
-    let
-        _ =
-            Debug.log "key" model.key
-    in
     div [ class "container" ]
         [ div [ class "columns" ]
             [ div
@@ -131,10 +112,8 @@ viewBody model =
                 , div [ class "level content is-small sidebar-about" ] [ text model.about ]
                 , viewMediaLinks model
                 ]
-            , b [] [ text (Url.toString model.url) ]
-
-            -- , div [ class "column is-three-quarters" ]
-            --     [ routeTo model ]
+            , div [ class "column is-three-quarters" ]
+                [ routeTo model ]
             ]
         ]
 
@@ -156,23 +135,28 @@ viewMediaLinks model =
 
 viewHome : Model -> Html Msg
 viewHome model =
-    div [] (listBlogPosts model.posts)
+    div [] (viewBlogPosts model.posts)
 
 
-listBlogPosts : List BlogPost -> List (Html Msg)
-listBlogPosts blogPosts =
-    List.map
-        (\post ->
-            a [ class "blog-post-item", href ("/posts/" ++ post.name) ]
-                [ p [ class "title is-6" ] [ text post.title ]
-                , p [ class "subtitle is-6" ] [ text post.description ]
-                ]
-        )
-        getBlogPosts
+viewBlogPosts : Dict.Dict String BlogPost -> List (Html Msg)
+viewBlogPosts blogPosts =
+    blogPosts
+        |> Dict.map
+            (\name post ->
+                a [ class "blog-post-item", href ("/posts/" ++ name) ]
+                    [ p [ class "title is-6" ] [ text post.title ]
+                    , p [ class "subtitle is-6" ] [ text post.description ]
+                    ]
+            )
+        |> Dict.values
 
 
-viewBlogPost : BlogPost -> Html Msg
-viewBlogPost post =
+viewBlogPost : String -> Html Msg
+viewBlogPost stringPost =
+    let
+        post =
+            toBlogPost stringPost
+    in
     div []
         [ h1 [ class "title" ] [ text post.title ]
         , div [ class "level" ] [ Markdown.toHtml [ class "content" ] post.content ]
@@ -184,22 +168,34 @@ routeParser =
     oneOf
         [ map Home (s "home")
         , map About (s "about")
-        , map Blog (s "blog" </> string)
+        , map Blog (s "posts" </> string)
         ]
 
 
+toRoute : String -> Route
+toRoute string =
+    case Url.fromString string of
+        Nothing ->
+            NotFound
 
--- routeTo : Model -> Html Msg
--- routeTo model =
---     case model.route of
---         Post blogPost ->
---             viewBlogPost blogPost
---
---         AboutPage ->
---             About.view
---
---         _ ->
---             viewHome model
+        Just url ->
+            Maybe.withDefault NotFound (parse routeParser url)
+
+
+routeTo : Model -> Html Msg
+routeTo model =
+    case model.route of
+        Blog blogPost ->
+            viewBlogPost blogPost
+
+        About ->
+            About.view
+
+        _ ->
+            viewHome model
+
+
+
 -- SUBSCRIPTIONS
 
 
