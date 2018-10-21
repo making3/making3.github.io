@@ -111,6 +111,9 @@ viewMediaLinks model =
         , a [ target "_blank", href "https://twitter.com/making_3" ]
             [ img [ class "media-icon", src "images/twitter.png" ] []
             ]
+        , a [ target "_blank", href "https://www.linkedin.com/in/matthew-king-2b884766" ]
+            [ img [ class "media-icon", src "images/linkedin.png" ] []
+            ]
         ]
 
 

@@ -5201,6 +5201,24 @@ var author$project$Main$viewMediaLinks = function (model) {
 								elm$html$Html$Attributes$src('images/twitter.png')
 							]),
 						_List_Nil)
+					])),
+				A2(
+				elm$html$Html$a,
+				_List_fromArray(
+					[
+						elm$html$Html$Attributes$target('_blank'),
+						elm$html$Html$Attributes$href('https://www.linkedin.com/in/matthew-king-2b884766')
+					]),
+				_List_fromArray(
+					[
+						A2(
+						elm$html$Html$img,
+						_List_fromArray(
+							[
+								elm$html$Html$Attributes$class('media-icon'),
+								elm$html$Html$Attributes$src('images/linkedin.png')
+							]),
+						_List_Nil)
 					]))
 			]));
 };
