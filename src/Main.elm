@@ -66,7 +66,7 @@ update msg model =
 
 view : Model -> Document Msg
 view model =
-    { title = "Test"
+    { title = "Matth's Blog"
     , body =
         [ section [ class "hero is-primary is-medium" ]
             [ div [ class "hero-head" ]

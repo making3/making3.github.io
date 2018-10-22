@@ -6630,7 +6630,7 @@ var author$project$Main$view = function (model) {
 					])),
 				author$project$Main$viewContent(model)
 			]),
-		title: 'Test'
+		title: 'Matth\'s Blog'
 	};
 };
 var author$project$Model$LinkClicked = function (a) {
