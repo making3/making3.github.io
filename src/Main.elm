@@ -11,8 +11,9 @@ import Html.Events exposing (onClick)
 import List as List exposing (map)
 import Markdown exposing (toHtml)
 import Model exposing (..)
+import Route exposing (Route(..), fromUrl)
 import Url
-import Url.Parser exposing ((</>), Parser, int, map, oneOf, parse, s, string)
+import Url.Parser exposing ((</>), Parser, int, map, oneOf, parse, s, string, top)
 
 
 main =
@@ -36,7 +37,7 @@ init _ url key =
       , about = "Full stack software developer"
       , picture = "https://secure.gravatar.com/avatar/1e84d7b396211e9c7bbd888dc51249a4?s=188"
       , posts = blogPosts
-      , route = url |> Url.toString |> toRoute
+      , route = url |> fromUrl
       , url = url
       , key = key
       }
@@ -60,7 +61,7 @@ update msg model =
                     ( model, Nav.load href )
 
         UrlChanged url ->
-            ( { model | url = url, route = url |> Url.toString |> toRoute }, Cmd.none )
+            ( { model | url = url, route = url |> fromUrl }, Cmd.none )
 
 
 view : Model -> Document Msg
@@ -72,12 +73,12 @@ view model =
                 [ nav [ class "navbar" ]
                     [ div [ class "container" ]
                         [ div [ class "navbar-brand" ]
-                            [ a [ class "navbar-item", href "/home" ] [ text "matth" ]
+                            [ a [ class "navbar-item", Route.href Home ] [ text "matth" ]
                             ]
                         , div [ class "navbar-menu" ]
                             [ div [ class "navbar-end" ]
-                                [ a [ class "navbar-item", href "/home" ] [ text "Home" ]
-                                , a [ class "navbar-item", href "/about" ] [ text "About" ]
+                                [ a [ class "navbar-item", Route.href Home ] [ text "Home" ]
+                                , a [ class "navbar-item", Route.href About ] [ text "About" ]
                                 ]
                             ]
                         ]
@@ -93,7 +94,7 @@ viewContent : Model -> Html Msg
 viewContent model =
     div []
         [ div [ class "container" ]
-            [ h1 [ class "title blog-title", href "/home" ]
+            [ h1 [ class "title blog-title", Route.href Home ]
                 [ text model.title ]
             , viewBody model
             ]
@@ -143,7 +144,7 @@ viewBlogPosts blogPosts =
     blogPosts
         |> Dict.map
             (\name post ->
-                a [ class "blog-post-item", href ("/posts/" ++ name) ]
+                a [ class "blog-post-item", Route.href (Blog name) ]
                     [ p [ class "title is-6" ] [ text post.title ]
                     , p [ class "subtitle is-6" ] [ text post.description ]
                     ]
@@ -166,20 +167,10 @@ viewBlogPost stringPost =
 routeParser : Parser (Route -> a) a
 routeParser =
     oneOf
-        [ map Home (s "home")
+        [ map Home top
         , map About (s "about")
         , map Blog (s "posts" </> string)
         ]
-
-
-toRoute : String -> Route
-toRoute string =
-    case Url.fromString string of
-        Nothing ->
-            NotFound
-
-        Just url ->
-            Maybe.withDefault NotFound (parse routeParser url)
 
 
 routeTo : Model -> Html Msg

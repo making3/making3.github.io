@@ -1,9 +1,10 @@
-module Model exposing (BlogPost, Model, Msg(..), Route(..))
+module Model exposing (BlogPost, Model, Msg(..))
 
 import Browser
 import Browser.Navigation as Nav
 import Dict
 import Html exposing (Html)
+import Route exposing (Route(..))
 import Url
 
 
@@ -28,10 +29,3 @@ type alias BlogPost =
 type Msg
     = LinkClicked Browser.UrlRequest
     | UrlChanged Url.Url
-
-
-type Route
-    = Home
-    | About
-    | Blog String
-    | NotFound
