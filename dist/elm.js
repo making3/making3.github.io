@@ -4410,7 +4410,7 @@ function _Markdown_formatOptions(options)
 		smartypants: options.smartypants
 	};
 }
-var author$project$Posts$Intro$getContent = '\n  Test\n';
+var author$project$Posts$Intro$getContent = '\n  Todo...\n';
 var author$project$Posts$Intro$post = {content: author$project$Posts$Intro$getContent, description: 'Why I\'m making a blog...', title: 'Blog Introduction'};
 var elm$core$Dict$RBEmpty_elm_builtin = {$: 'RBEmpty_elm_builtin'};
 var elm$core$Dict$empty = elm$core$Dict$RBEmpty_elm_builtin;
